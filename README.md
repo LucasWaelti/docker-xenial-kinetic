@@ -2,6 +2,8 @@
 
 Create a Docker image to run Voxblox and the AprilTag detection on Ubuntu Xenial for x86_64 architecture with all required dependencies. 
 
+Clone [this snippet](https://gitlab.com/snippets/1975895) to install voxblox and its dependencies in a self contained folder. 
+
 ## Build the image
 ```bash
 cd ~/docker_test
