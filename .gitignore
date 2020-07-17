@@ -1,6 +1,7 @@
 build/
 devel/
 install/
+logs/
 
 voxblox_package/ 
 

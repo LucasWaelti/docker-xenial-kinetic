@@ -13,20 +13,9 @@ docker build -t xenial-kinetic:v1.0 -f Dockerfile .
 docker tag xenial-kinetic:v1.0 kinetic-amd
 ``` 
 
-## Initialize the workspace 
-Initialize the workspace and download Voxblox: 
-```bash
-./init_workspace.sh 
-```
-Update the git submodules: 
-```bash
-git submodule update --init --recursive     # the first time this repo is cloned
-git submodule update --recursive --remote   # to simply update 
-```
-
 ## Run the Docker image 
 ```bash
-docker run -it --rm --privileged --net=host --name xenial-kinetic -v /home/$(whoami)/docker-xenial-kinetic/catkin_ws/:/home/user/catkin_ws/:rw -w /home/user/ kinetic-amd /bin/bash
+docker run -it --rm --privileged --net=host --name xenial-kinetic -v /home/$(whoami)/docker-xenial-kinetic/:/home/user/:rw -w /home/user/ kinetic-amd /bin/bash
 ```
 The following table briefly explains the arguments, as presented [here](https://docs.modalai.com/docker-on-voxl/):
 | Argument                 | Description                                                                          |
@@ -39,10 +28,23 @@ The following table briefly explains the arguments, as presented [here](https://
 | -v {outside}:{inside}:rw | Mounts a directory outside the container to a directory inside the container.        |
 | -w {working_dir}         | Set the working directory inside the container.                                      |
 
+## Initialize the workspace 
+Initialize the workspace and download Voxblox: 
+```bash
+./init_workspace.sh 
+```
+Update the git submodules: 
+```bash
+git submodule update --init --recursive     # the first time this repo is cloned
+git submodule update --recursive --remote   # to simply update 
+```
+
 
 ## Update CMake from the container 
-Ubuntu Xenial is limited to cmake version 3.5.1. However [apriltag](https://github.com/AprilRobotics/apriltag) and [apriltag_ros](https://github.com/AprilRobotics/apriltag_ros) needs cmake >= 3.10. 
-A new cmake version therefore needs to installed from source. 
+> *WARNING*: Only perform these steps if a problem occurs during the compilation of the apriltag packages! Support for cmake 3.0.5+ was recently added, which satisfies the system's cmake version 3.5.1 of the Docker image. 
+
+Ubuntu Xenial is limited to cmake version 3.5.1. However **older** versions of [apriltag](https://github.com/AprilRobotics/apriltag) and [apriltag_ros](https://github.com/AprilRobotics/apriltag_ros) need cmake >= 3.10. 
+A new cmake version therefore needs to be installed from source. 
 To do so, start the container and clone the [cmake source](https://github.com/Kitware/CMake) somewhere in the mounted volume to get the last cmake version: 
 ```bash
 cd ./catkin_ws/ 
@@ -53,4 +55,4 @@ Build and install cmake according to their [documentation](https://github.com/Ki
 ```bash
 $ ./bootstrap && make && sudo make install
 ```
-This will build and install the new cmake version and overwrite the system's default cmake. 
+This will build and install the new cmake version and overwrite the system's default cmake in the container. 
