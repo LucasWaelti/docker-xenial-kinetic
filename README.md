@@ -1,6 +1,17 @@
-# Docker experimentation 
+# Docker image creation  
 
 Create a Docker image to run Voxblox and the AprilTag detection on Ubuntu Xenial for x86_64 architecture with all required dependencies. 
+
+## Download the source code 
+Update the git submodules: 
+```bash
+git submodule update --init --recursive     # the first time this repo is cloned
+git submodule update --recursive --remote   # to simply update 
+``` 
+Download Voxblox and its dependencies: 
+```bash
+./pull_source.sh 
+```
 
 ## Build the image
 ```bash
@@ -28,17 +39,17 @@ The following table briefly explains the arguments, as presented [here](https://
 | -v {outside}:{inside}:rw | Mounts a directory outside the container to a directory inside the container.        |
 | -w {working_dir}         | Set the working directory inside the container.                                      |
 
-## Initialize the workspace 
+### Initialize the workspace 
 Initialize the workspace and download Voxblox: 
 ```bash
 ./init_workspace.sh 
 ```
-Update the git submodules: 
-```bash
-git submodule update --init --recursive     # the first time this repo is cloned
-git submodule update --recursive --remote   # to simply update 
-```
 
+### Build the packages
+```bash
+cd ./catkin_ws
+catkin build
+```
 
 ## Update CMake from the container 
 > *WARNING*: Only perform these steps if a problem occurs during the compilation of the apriltag packages! Support for cmake 3.0.5+ was recently added, which satisfies the system's cmake version 3.5.1 of the Docker image. 
