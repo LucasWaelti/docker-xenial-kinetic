@@ -45,6 +45,7 @@ Ubuntu Xenial is limited to cmake version 3.5.1. However [apriltag](https://gith
 A new cmake version therefore needs to installed from source. 
 To do so, start the container and clone the [cmake source](https://github.com/Kitware/CMake) somewhere in the mounted volume to get the last cmake version: 
 ```bash
+cd ./catkin_ws/ 
 git clone https://github.com/Kitware/CMake.git
 cd CMake
 ``` 
