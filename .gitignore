@@ -1,0 +1,7 @@
+build/
+devel/
+install/
+
+voxblox_package/ 
+
+.catkin_tools/
